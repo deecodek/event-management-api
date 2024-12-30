@@ -32,7 +32,7 @@ Before you begin, ensure you have the following installed:
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-username/event-management-api.git
+git clone https://github.com/deecodek/event-management-api.git
 cd event-management-api
 ```
 ### Step 2: Install packages
