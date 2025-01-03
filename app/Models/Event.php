@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Artist;
-use App\Models\Location;
-use App\Models\Organizer;
-use App\Models\Registration;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Event extends Model
-{    use InteractsWithMedia;
+{
+    use InteractsWithMedia, LogsActivity;
 
     protected $fillable = [
         'title',
@@ -51,6 +49,14 @@ class Event extends Model
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('event_images')
-             ->singleFile();
+            ->singleFile();
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // Log all attributes
+            ->logOnlyDirty() // Only log changes when attributes are modified
+            ->setDescriptionForEvent(fn (string $eventName) => "Event {$eventName}"); // Custom description
     }
 }

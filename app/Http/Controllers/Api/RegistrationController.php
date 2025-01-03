@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Registration;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RegistrationResource;
+use App\Models\Registration;
+use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
@@ -33,6 +33,7 @@ class RegistrationController extends Controller
 
         return new RegistrationResource($registration);
     }
+
     /**
      * Display the specified resource.
      */

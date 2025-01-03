@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('organizers', function (Blueprint $table) {
             $table->id();
-    $table->string('name');
-    $table->string('email');
-    $table->string('phone')->nullable();
-    $table->timestamps();
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone')->nullable();
+            $table->timestamps();
         });
     }
 

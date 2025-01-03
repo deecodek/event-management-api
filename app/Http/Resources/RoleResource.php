@@ -21,5 +21,6 @@ class RoleResource extends JsonResource
             'users' => $this->whenLoaded('users'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-        ];    }
+        ];
+    }
 }

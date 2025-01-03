@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\QueryBuilder;
-use App\Http\Resources\ArtistResource;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ArtistController extends Controller
 {
@@ -33,6 +33,7 @@ class ArtistController extends Controller
         ]);
 
         $artist = Artist::create($request->all());
+
         return new ArtistResource($artist);
     }
 
@@ -49,12 +50,14 @@ class ArtistController extends Controller
         ]);
 
         $artist->update($request->all());
+
         return new ArtistResource($artist);
     }
 
     public function destroy(Artist $artist)
     {
         $artist->delete();
+
         return response()->json(['message' => 'Artist deleted successfully']);
     }
 }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-    $table->foreignId('user_id')->constrained('users');
-    $table->foreignId('event_id')->constrained('events');
-    $table->timestamps();
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('event_id')->constrained('events');
+            $table->timestamps();
         });
     }
 

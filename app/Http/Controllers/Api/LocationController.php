@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Http\Resources\LocationResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class LocationController extends Controller
 {
@@ -37,6 +37,7 @@ class LocationController extends Controller
         ]);
 
         $location = Location::create($request->all());
+
         return new LocationResource($location);
     }
 
@@ -55,13 +56,14 @@ class LocationController extends Controller
         ]);
 
         $location->update($request->all());
+
         return new LocationResource($location);
     }
 
     public function destroy(Location $location)
     {
         $location->delete();
+
         return response()->json(['message' => 'Location deleted successfully']);
     }
-
 }

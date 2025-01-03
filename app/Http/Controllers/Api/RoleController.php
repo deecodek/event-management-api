@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Role;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
-use Spatie\QueryBuilder\QueryBuilder;
+use App\Models\Role;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class RoleController extends Controller
 {
@@ -32,28 +32,32 @@ class RoleController extends Controller
         ]);
 
         $role = Role::create(['name' => $request->name]);
+
         return new RoleResource($role);
     }
 
     public function show(Role $role)
     {
         $role->load(['permissions', 'users']);
+
         return new RoleResource($role);
     }
 
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,' . $role->id,
+            'name' => 'required|string|unique:roles,name,'.$role->id,
         ]);
 
         $role->update(['name' => $request->name]);
+
         return new RoleResource($role);
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
+
         return response()->json(['message' => 'Role deleted successfully']);
     }
 }

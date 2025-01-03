@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Event;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EventResource;
-use Spatie\QueryBuilder\QueryBuilder;
+use App\Models\Event;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class EventController extends Controller
 {
-
     public function index(Request $request)
     {
         $events = QueryBuilder::for(Event::class)
@@ -48,7 +47,8 @@ class EventController extends Controller
         if ($request->hasFile('image')) {
             $event->addMediaFromRequest('image')->toMediaCollection('event_images');
         }
-        $event->load( 'location', 'organizer', 'registrations');
+        $event->load('location', 'organizer', 'registrations');
+
         return new EventResource($event);
     }
 
@@ -81,13 +81,14 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         $event->delete();
+
         return response()->json(['message' => 'Event deleted successfully']);
     }
 
     public function downloadPdf(Event $event)
     {
         $pdf = Pdf::loadView('events.pdf', ['event' => $event]);
+
         return $pdf->download('event-details.pdf');
     }
-
 }

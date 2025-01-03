@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Http\Resources\PermissionResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PermissionController extends Controller
 {
@@ -32,28 +32,32 @@ class PermissionController extends Controller
         ]);
 
         $permission = Permission::create(['name' => $request->name]);
+
         return new PermissionResource($permission);
     }
 
     public function show(Permission $permission)
     {
         $permission->load(['roles', 'users']);
+
         return new PermissionResource($permission);
     }
 
     public function update(Request $request, Permission $permission)
     {
         $request->validate([
-            'name' => 'required|string|unique:permissions,name,' . $permission->id,
+            'name' => 'required|string|unique:permissions,name,'.$permission->id,
         ]);
 
         $permission->update(['name' => $request->name]);
+
         return new PermissionResource($permission);
     }
 
     public function destroy(Permission $permission)
     {
         $permission->delete();
+
         return response()->json(['message' => 'Permission deleted successfully']);
     }
 }

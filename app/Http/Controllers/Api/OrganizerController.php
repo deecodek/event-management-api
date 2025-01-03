@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\OrganizerResource;
 use App\Models\Organizer;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use App\Http\Resources\OrganizerResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class OrganizerController extends Controller
 {
@@ -31,10 +31,11 @@ class OrganizerController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
-            'phone' => 'nullable|string',
+            'phone' => 'required|string',
         ]);
 
         $organizer = Organizer::create($request->all());
+
         return new OrganizerResource($organizer);
     }
 
@@ -52,12 +53,14 @@ class OrganizerController extends Controller
         ]);
 
         $organizer->update($request->all());
+
         return new OrganizerResource($organizer);
     }
 
     public function destroy(Organizer $organizer)
     {
         $organizer->delete();
+
         return response()->json(['message' => 'Organizer deleted successfully']);
     }
 }

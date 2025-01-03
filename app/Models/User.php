@@ -3,20 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Event;
-use App\Models\Registration;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-    use HasRoles,HasApiTokens;
-
+    use HasApiTokens, HasFactory,HasRoles,Impersonate,LogsActivity,Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'auth_id', 
+        'auth_id',
     ];
 
     /**
@@ -53,10 +52,21 @@ class User extends Authenticatable
         ];
     }
 
-    public function events() {
+    public function events()
+    {
         return $this->hasMany(Event::class, 'organizer_id');
     }
-    public function registrations() {
+
+    public function registrations()
+    {
         return $this->hasMany(Registration::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // Log all attributes
+            ->logOnlyDirty() // Only log changes when attributes are modified
+            ->setDescriptionForEvent(fn (string $eventName) => "Event {$eventName}"); // Custom description
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Event;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Registration extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'user_id',
         'event_id',
@@ -26,5 +28,13 @@ class Registration extends Model
     public function event()
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // Log all attributes
+            ->logOnlyDirty() // Only log changes when attributes are modified
+            ->setDescriptionForEvent(fn (string $eventName) => "Event {$eventName}"); // Custom description
     }
 }
