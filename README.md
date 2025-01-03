@@ -20,6 +20,7 @@ A robust Laravel-based API for managing events, artists, locations, organizers, 
 
 Before you begin, ensure you have the following installed:
 
+
 - **PHP** (>= 8.2)
 - **Laragon**
 - **Composer**
@@ -31,6 +32,11 @@ Before you begin, ensure you have the following installed:
 ## Installation
 
 ### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/your-username/event-management-api.git
+cd event-management-api
+=======
 ```bash
 git clone https://github.com/deecodek/event-management-api.git
 cd event-management-api
